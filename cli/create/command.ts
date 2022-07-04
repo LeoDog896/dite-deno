@@ -37,6 +37,8 @@ export const createCommand = new Command()
   .description("Create a new project with a type.")
   .type("createType", createType)
   .arguments("<type:createType> [directory:file]")
+  .example("Simple vanilla project", "dite create vanilla")
+  .example("Create svelte project in a directory", "dite create svelte my-app")
   .action(async (_, type, directory = "./") => {
 
     // Get the name of the directory (if it's ./, itll be the name of the last directory in the name)

@@ -11,6 +11,12 @@ const main = new Command()
   .command("create", createCommand);
 
 try {
+
+  if (Deno.args.length === 0) {
+    main.showHelp();
+    Deno.exit(0);
+  }
+
   await main.parse(Deno.args);
 } catch (e) {
   console.error(`${red("error")}: ${e.message}`);

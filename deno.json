@@ -1,5 +1,5 @@
 {
   "tasks": {
-    "install": "deno install -A --unstable -f ./cli/index.ts"
+    "install": "deno install -A --unstable -f -n=dite ./cli/index.ts"
   }
 }
