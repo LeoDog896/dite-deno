@@ -1,8 +1,8 @@
 import { types as createTypes } from "./src/create/mod.ts"
-import { parse } from "https://deno.land/std@0.146.0/flags/mod.ts";
 import { join } from "https://deno.land/std@0.146.0/path/mod.ts";
-import { red, green, blue } from "./src/theme.ts"
+import { green, red } from "./src/theme.ts"
 import { Confirm } from "https://deno.land/x/cliffy@v0.24.2/prompt/mod.ts";
+import { Command, EnumType, CompletionsCommand, HelpCommand } from "https://deno.land/x/cliffy@v0.24.2/command/mod.ts";
 
 async function askForEmpty(directory: string) {
   try {
@@ -22,35 +22,37 @@ async function askForEmpty(directory: string) {
   }
 }
 
-const rawArgs = parse(Deno.args)
+const createType = new EnumType(Object.keys(createTypes))
 
-const args = {
-  ...rawArgs,
-  _: rawArgs._.map(arg => typeof arg === "number" ? arg.toString() : arg)
-}
+const startCommand = new Command()
+  .name("create")
+  .description("Create a new project with a type.")
+  .type("createType", createType)
+  .arguments("<type:createType> <directory:file>")
+  .action(async (_, type, directory) => {
 
-if (args._[0] == "create") {
-  const type = args._[1]
-  
-  if (type in createTypes === false) {
-    if (type == undefined) {
-      console.error(`Please specify a type: (${Object.keys(createTypes).join(", ")})`)
-    } else {
-      console.error(`${red("Unknown type:")} ${type}`)
-    }
+    await askForEmpty(directory)
 
-    Deno.exit(1)
-  }
+    createTypes[type]?.files?.forEach(async file => {
+      // make any necessary directories THEN create the file
+      await Deno.mkdir(join(directory, file.path.split("/").slice(0, -1).join("/")), { recursive: true })
+      await Deno.writeTextFile(join(directory, file.path), file.content, { create: true })
+    })
 
-  const directory = args._[2] ?? "./"
+    console.log(`${green(`Project ${directory} created!`)}`)
+  });
 
-  askForEmpty()
+const main = new Command()
+  .name("dite")
+  .description("The deno framework for websites.")
+  .version("0.0.1")
+  .command("help", new HelpCommand().global())
+  .command("completions", new CompletionsCommand())
+  .command("create", startCommand);
 
-  createTypes[type]?.files?.forEach(async file => {
-    // make any necessary directories THEN create the file
-    await Deno.mkdir(join(directory, file.path.split("/").slice(0, -1).join("/")), { recursive: true })
-    await Deno.writeTextFile(join(directory, file.path), file.content, { create: true })
-  })
-
-  console.log(`${green(`Project ${(blue(args._[2] + " ") ?? "")}created!`)}`)
+try {
+  await main.parse(Deno.args);
+} catch (e) {
+  console.error(`${red("error")}: ${e.message}`);
+  Deno.exit(1)
 }
