@@ -1,5 +1,6 @@
 {
   "tasks": {
-    "check": "deno fmt; deno lint"
+    "check": "deno fmt; deno lint",
+    "install": "deno install -f -n=dite -A ./cli.ts"
   }
 }
