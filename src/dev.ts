@@ -1,9 +1,8 @@
 import { Application } from "../import/oak.ts";
-import { UserDiteConfig, toDiteConfig } from './diteConfig.ts';
-import { build } from './build.ts';
+import { toDiteConfig, UserDiteConfig } from "./diteConfig.ts";
+import { build } from "./build.ts";
 
 export async function dev(config: UserDiteConfig) {
-
   const { port } = toDiteConfig(config);
 
   await build(config);
@@ -15,7 +14,7 @@ export async function dev(config: UserDiteConfig) {
     await next();
     const ms = Date.now() - start;
     context.response.headers.set("X-Response-Time", `${ms}ms`);
-  });  
+  });
 
   await app.listen({ port });
 }

@@ -1,4 +1,4 @@
-import { Plugin } from "../import/drollup.ts"
+import { Plugin } from "../import/drollup.ts";
 
 export interface DiteConfig {
   port: number;
@@ -9,12 +9,12 @@ export type UserDiteConfig = Partial<DiteConfig>;
 
 const defaultDiteConfig: DiteConfig = {
   port: 3000,
-  plugins: []
-}
+  plugins: [],
+};
 
 export function toDiteConfig(userConfig: UserDiteConfig): DiteConfig {
   return {
     ...defaultDiteConfig,
-    ...userConfig
+    ...userConfig,
   };
 }

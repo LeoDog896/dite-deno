@@ -9,8 +9,9 @@ export function base(): CreateType {
         {
           tasks: {
             dev: "deno run -A --unstable --import-map=import_map.json ./dev.ts",
-            build: "deno run -A --unstable --import-map=import_map.json ./build.ts",
-            check: "deno fmt; deno lint"
+            build:
+              "deno run -A --unstable --import-map=import_map.json ./build.ts",
+            check: "deno fmt; deno lint",
           },
         },
         null,
@@ -28,15 +29,19 @@ export function base(): CreateType {
 </head>
 <body>
   %body%
-</body>`
+</body>`,
     },
     {
       path: "import_map.json",
-      content: JSON.stringify({
-        imports: {
-          "dite": join(Deno.mainModule, "../src/mod.ts")
-        }
-      }, null, 2),
-    }
-  ]
+      content: JSON.stringify(
+        {
+          imports: {
+            "dite": join(Deno.mainModule, "../src/mod.ts"),
+          },
+        },
+        null,
+        2,
+      ),
+    },
+  ];
 }

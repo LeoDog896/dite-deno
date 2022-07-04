@@ -3,4 +3,4 @@ import { base } from "./base.ts";
 
 export const vanilla: CreateType = [
   ...base(),
-]
+];

@@ -1,5 +1,9 @@
-import { red } from "./theme.ts"
-import { Command, CompletionsCommand, HelpCommand } from "https://deno.land/x/cliffy@v0.24.2/command/mod.ts";
+import { red } from "./theme.ts";
+import {
+  Command,
+  CompletionsCommand,
+  HelpCommand,
+} from "https://deno.land/x/cliffy@v0.24.2/command/mod.ts";
 import { createCommand } from "./create/command.ts";
 
 const main = new Command()
@@ -11,7 +15,6 @@ const main = new Command()
   .command("create", createCommand);
 
 try {
-
   if (Deno.args.length === 0) {
     main.showHelp();
     Deno.exit(0);
@@ -20,5 +23,5 @@ try {
   await main.parse(Deno.args);
 } catch (e) {
   console.error(`${red("error")}: ${e.message}`);
-  Deno.exit(1)
+  Deno.exit(1);
 }

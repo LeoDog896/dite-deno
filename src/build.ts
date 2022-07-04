@@ -1,5 +1,5 @@
-import { UserDiteConfig, toDiteConfig } from './diteConfig.ts';
-import { rollup } from '../import/drollup.ts';
+import { toDiteConfig, UserDiteConfig } from "./diteConfig.ts";
+import { rollup } from "../import/drollup.ts";
 import diteEntry from "./dite-entry.ts";
 
 export async function build(config: UserDiteConfig) {
@@ -8,7 +8,7 @@ export async function build(config: UserDiteConfig) {
   await rollup({
     plugins: [
       diteEntry(),
-      ...diteConfig.plugins
-    ]
-  })
+      ...diteConfig.plugins,
+    ],
+  });
 }

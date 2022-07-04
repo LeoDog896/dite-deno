@@ -14,6 +14,6 @@ export default function diteEntry(source: string): Plugin {
         return source;
       }
       return null;
-    }
+    },
   };
 }
