@@ -1,5 +1,5 @@
 import { types as createTypes } from "./mod.ts"
-import { join } from "https://deno.land/std@0.146.0/path/mod.ts";
+import { join } from "../../import/path.ts";
 import { blue, green } from "../theme.ts"
 import { Confirm } from "https://deno.land/x/cliffy@v0.24.2/prompt/mod.ts";
 import { Command, EnumType } from "https://deno.land/x/cliffy@v0.24.2/command/mod.ts";

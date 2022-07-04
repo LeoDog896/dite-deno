@@ -1,5 +1,6 @@
 {
   "tasks": {
-    "install": "deno install -A --unstable -f -n=dite ./cli/index.ts"
+    "install": "deno install -A --unstable -f -n=dite ./cli/index.ts",
+    "check": "deno fmt; deno lint"
   }
 }

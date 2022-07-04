@@ -1,4 +1,5 @@
 import { CreateType } from "./createType.ts";
+import { join } from "../../import/path.ts";
 
 export function base(): CreateType {
   return [
@@ -8,8 +9,8 @@ export function base(): CreateType {
         {
           tasks: {
             dev: "deno run -A --unstable --import-map=import_map.json ./dev.ts",
-            build:
-              "deno run -A --unstable --import-map=import_map.json ./build.ts",
+            build: "deno run -A --unstable --import-map=import_map.json ./build.ts",
+            check: "deno fmt; deno lint"
           },
         },
         null,
@@ -28,6 +29,14 @@ export function base(): CreateType {
 <body>
   %body%
 </body>`
+    },
+    {
+      path: "import_map.json",
+      content: JSON.stringify({
+        imports: {
+          "dite": join(Deno.mainModule, "../src/mod.ts")
+        }
+      }, null, 2),
     }
   ]
 }
