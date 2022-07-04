@@ -1,8 +1,8 @@
-import { types as createTypes } from "./src/create/mod.ts"
+import { types as createTypes } from "./mod.ts"
 import { join } from "https://deno.land/std@0.146.0/path/mod.ts";
-import { blue, green, red } from "./src/theme.ts"
+import { blue, green } from "../theme.ts"
 import { Confirm } from "https://deno.land/x/cliffy@v0.24.2/prompt/mod.ts";
-import { Command, EnumType, CompletionsCommand, HelpCommand } from "https://deno.land/x/cliffy@v0.24.2/command/mod.ts";
+import { Command, EnumType } from "https://deno.land/x/cliffy@v0.24.2/command/mod.ts";
 
 async function askForEmpty(directory: string) {
   try {
@@ -32,7 +32,7 @@ async function askForEmpty(directory: string) {
 
 const createType = new EnumType(Object.keys(createTypes))
 
-const startCommand = new Command()
+export const createCommand = new Command()
   .name("create")
   .description("Create a new project with a type.")
   .type("createType", createType)
@@ -44,7 +44,7 @@ const startCommand = new Command()
 
     await askForEmpty(directory)
 
-    createTypes[type]?.files?.forEach(async file => {
+    createTypes[type]?.forEach(async file => {
       // make any necessary directories THEN create the file
       await Deno.mkdir(join(directory, file.path.split("/").slice(0, -1).join("/")), { recursive: true })
       await Deno.writeTextFile(join(directory, file.path), file.content, { create: true })
@@ -52,18 +52,3 @@ const startCommand = new Command()
 
     console.log(`${green(`Project ${blue(directoryName)} created!`)}`)
   });
-
-const main = new Command()
-  .name("dite")
-  .description("The deno framework for websites.")
-  .version("0.0.1")
-  .command("help", new HelpCommand().global())
-  .command("completions", new CompletionsCommand())
-  .command("create", startCommand);
-
-try {
-  await main.parse(Deno.args);
-} catch (e) {
-  console.error(`${red("error")}: ${e.message}`);
-  Deno.exit(1)
-}

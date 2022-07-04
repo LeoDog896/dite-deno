@@ -1,7 +1,7 @@
 import { CreateType } from "./createType.ts";
 
-export const base: CreateType = {
-  files: [
+export function base(): CreateType {
+  return [
     {
       path: "deno.json",
       content: JSON.stringify(
@@ -16,5 +16,18 @@ export const base: CreateType = {
         2,
       ),
     },
-  ],
-};
+    {
+      path: "index.html",
+      content: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  %head%
+</head>
+<body>
+  %body%
+</body>`
+    }
+  ]
+}
