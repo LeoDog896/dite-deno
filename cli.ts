@@ -23,9 +23,11 @@ if (args._[0] == "create") {
     Deno.exit(1)
   }
 
-  const directory = args._[2] || "./"
+  const directory = args._[2] ?? "./"
 
   createTypes[type]?.files?.forEach(async file => {
-    await Deno.writeTextFile(join(directory, file.path), file.content)
+    // make any necessary directories THEN create the file
+    await Deno.mkdir(join(directory, file.path.split("/").slice(0, -1).join("/")), { recursive: true })
+    await Deno.writeTextFile(join(directory, file.path), file.content, { create: true })
   })
 }
