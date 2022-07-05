@@ -6,7 +6,7 @@ a little bit of a framework
 - Powered by esbuild
 - Easy template creation
 
-## usage
+## creation
 
 First, install dite.
 
@@ -14,6 +14,12 @@ First, install dite.
 ```
 
 Create a new project with: `dite create <type> [project-name]`
+
+## usage
+
+Dite has two modes: dev (live server), and build (static support, coming soon).
+
+To use these, do `deno task dev` or `deno task build` respectively.
 
 ## routing
 

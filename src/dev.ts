@@ -2,7 +2,7 @@ import { build } from "../import/esbuild.ts";
 import { serve } from "../import/http.ts";
 import { toDiteConfig, UserDiteConfig } from "./diteConfig.ts";
 import { brightBlue, green, VERSION } from "../cli/theme.ts";
-import diteEntry from "./dite-entry.ts"
+import diteEntry from "./esbuild/dite-entry.ts"
 
 const uuid = crypto.randomUUID()
 
@@ -17,6 +17,7 @@ export async function dev(config: UserDiteConfig, quiet = false) {
       let timer: number;
       const body = new ReadableStream({
         start(controller) {
+          controller.enqueue(`${uuid}\n`);
           timer = setInterval(() => {
             controller.enqueue(`${uuid}\n`);
           }, 1000);
@@ -28,16 +29,37 @@ export async function dev(config: UserDiteConfig, quiet = false) {
 
       return new Response(body.pipeThrough(new TextEncoderStream()), {
         headers: {
-          "content-type": "text/plain; charset=utf-8",
+          "content-type": "text/event-stream;",
         },
       });
     }
 
     // HOT JavaScript listener
     if (url.pathname == "/_dite/hot-reload.js") {
-      return new Response(`fetch("/_dite/hot").then(response => response.body).then(body => body.getReader()).then(reader => {
-  console.log(reader)
-})`, {
+      return new Response(`(async () => {
+  const hot = await fetch("/_dite/hot")
+  const reader = hot.body.pipeThrough(new TextDecoderStream())
+    .getReader();
+
+  let charsReceived;
+  let result;
+
+  reader.read().then(function processText({ done, value }) {
+    if (done) {
+      console.log("Stream complete");
+      para.textContent = value;
+      return;
+    }
+
+    charsReceived += value.length;
+    const chunk = value;
+    console.log('Received ' + charsReceived + ' characters so far. Current chunk = ' + chunk);
+
+    result += chunk;
+
+    return reader.read().then(processText);
+  });
+})()`, {
         headers: {
           "Content-Type": "application/javascript",
         },

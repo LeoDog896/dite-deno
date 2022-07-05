@@ -1,4 +1,4 @@
-import { Plugin } from "../import/esbuild.ts";
+import { Plugin } from "../../import/esbuild.ts";
 
 export default function entry(source: string): Plugin {
   return {
