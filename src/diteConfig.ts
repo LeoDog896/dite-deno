@@ -16,7 +16,7 @@ export type UserDiteConfig = PartialExcept<DiteConfig, "entry">;
 export const defaultDiteConfig: Omit<DiteConfig, "entry"> = {
   port: 3000,
   plugins: [],
-  extension: ".ts"
+  extension: ".ts",
 };
 
 export function toDiteConfig(userConfig: UserDiteConfig): DiteConfig {

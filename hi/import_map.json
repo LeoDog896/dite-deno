@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "dite": "file:/home/leodog896/Documents/GitHub/dite/src/mod.ts",
+    "dite/": "file:/home/leodog896/Documents/GitHub/dite/src/"
+  }
+}

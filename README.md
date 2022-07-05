@@ -9,7 +9,10 @@ plugin compatibility is a semi-goal.
 Features:
 
 - Deno (TypeScript first)
+- Easy template creation
 
 ## routing
 
-First, framework files in rotes
+Routing is currently done by finding the first matching route. For example, if
+`/` is called, the route `index.?` is imported. If `/example` is called, the
+route `example.?` is imported.
