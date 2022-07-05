@@ -5,6 +5,7 @@ a little bit of a framework
 - Deno-first
 - Powered by esbuild
 - Easy template creation
+- HMR (Hot Module Reloading)
 
 ## creation
 

@@ -17,9 +17,9 @@ export async function dev(config: UserDiteConfig, quiet = false) {
       let timer: number;
       const body = new ReadableStream({
         start(controller) {
-          controller.enqueue(`${uuid}\n`);
+          controller.enqueue(`data: ${uuid}\nretry: 100\n\n`);
           timer = setInterval(() => {
-            controller.enqueue(`${uuid}\n`);
+            controller.enqueue(`data: ${uuid}\n\n`);
           }, 1000);
         },
         cancel() {
@@ -38,28 +38,18 @@ export async function dev(config: UserDiteConfig, quiet = false) {
     if (url.pathname == "/_dite/hot-reload.js") {
       return new Response(
         `(async () => {
-  const hot = await fetch("/_dite/hot")
-  const reader = hot.body.pipeThrough(new TextDecoderStream())
-    .getReader();
+  const source = new EventSource("/_dite/hot");
 
-  let charsReceived;
-  let result;
+  let lastData = "";
 
-  reader.read().then(function processText({ done, value }) {
-    if (done) {
-      console.log("Stream complete");
-      para.textContent = value;
-      return;
+  source.onerror = () => {void 0};
+
+  source.addEventListener("message", e => {
+    if (lastData !== "" && lastData !== e.data) {
+      location.reload()
     }
-
-    charsReceived += value.length;
-    const chunk = value;
-    console.log('Received ' + charsReceived + ' characters so far. Current chunk = ' + chunk);
-
-    result += chunk;
-
-    return reader.read().then(processText);
-  });
+    lastData = e.data
+  })
 })()`,
         {
           headers: {
