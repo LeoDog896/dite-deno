@@ -43,7 +43,7 @@ export function base(preset: string): CreateType {
           imports: {
             "dite": join(Deno.mainModule, "./../../src/mod.ts"),
             "dite/": join(Deno.mainModule, "./../../src/"),
-            "$lib": "./lib/"
+            "$lib": "./lib/",
           },
         },
         null,
