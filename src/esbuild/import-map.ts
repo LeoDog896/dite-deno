@@ -1,4 +1,5 @@
 import { Plugin } from "../../import/esbuild.ts";
+import { join } from "../../import/path.ts";
 
 interface ImportMap {
   imports: {
@@ -8,16 +9,16 @@ interface ImportMap {
 
 export default function import_map(map: ImportMap): Plugin {
   return {
-    name: "import_map",
+    name: "import-map",
     setup(build) {
-      build.onResolve({ filter: /.*/ }, (args) => {
+      build.onResolve({ filter: /.*/ }, args => {
         const paths = Object.keys(map.imports)
 
         for (const path of paths) {
           if (path.endsWith("/")) {
             if (args.path.startsWith(path)) {
               return {
-                path: args.path.replace(path, map.imports[path]!),
+                path: join(Deno.cwd(), args.path.replace(path, map.imports[path]!)),
               }
             }
           } else {
@@ -27,8 +28,6 @@ export default function import_map(map: ImportMap): Plugin {
               }
             }
           }
-
-          return args
         }
       });
     }

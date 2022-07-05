@@ -28,3 +28,7 @@ To use these, do `deno task dev` or `deno task build` respectively.
 Routing is currently done by finding the first matching route. For example, if
 `/` is called, the route `index.?` is imported. If `/example` is called, the
 route `example.?` is imported.
+
+## but isn't there others?
+
+this isn't meant to be a replacement for fresh or svel, but rather the backbone for any website. fresh and svel both cater to their respecitive preact and svelte situations, but dite is meant to be a more general solution.
