@@ -33,6 +33,7 @@ export function base(preset: string): CreateType {
 </head>
 <body>
   <div id="app"></div>
+  %body%
 </body>`,
     },
     {

@@ -1,4 +1,4 @@
-import { Plugin } from "../import/drollup.ts";
+import { Plugin } from "../import/esbuild.ts";
 
 export interface DiteConfig {
   port: number;

@@ -1,8 +1,10 @@
-import { rollup } from "../import/drollup.ts";
+import { build } from "../import/esbuild.ts";
 import { serve } from "../import/http.ts";
 import { toDiteConfig, UserDiteConfig } from "./diteConfig.ts";
-import { blue } from "../cli/theme.ts";
-import diteEntry from "./dite-entry.ts";
+import { brightBlue, green, VERSION } from "../cli/theme.ts";
+import diteEntry from "./dite-entry.ts"
+
+const uuid = crypto.randomUUID()
 
 export async function dev(config: UserDiteConfig, quiet = false) {
   const { port, plugins, entry, extension } = toDiteConfig(config);
@@ -16,7 +18,7 @@ export async function dev(config: UserDiteConfig, quiet = false) {
       const body = new ReadableStream({
         start(controller) {
           timer = setInterval(() => {
-            controller.enqueue("Hello, World!\n");
+            controller.enqueue(`${uuid}\n`);
           }, 1000);
         },
         cancel() {
@@ -33,60 +35,73 @@ export async function dev(config: UserDiteConfig, quiet = false) {
 
     // HOT JavaScript listener
     if (url.pathname == "/_dite/hot-reload.js") {
-      return new Response(`console.log("hot!")`, {
+      return new Response(`fetch("/_dite/hot").then(response => response.body).then(body => body.getReader()).then(reader => {
+  console.log(reader)
+})`, {
         headers: {
           "Content-Type": "application/javascript",
         },
       });
     }
 
-    // Route processing
-    route: {
+    // Serve the entry file
+    entry: {
       let name = url.pathname;
 
-      if (name.endsWith("/")) {
-        name += "index.html";
-      }
-
-      name = name.replace(/\.html$/, "").replace(/^\//, "");
+      name = name.replace(/\.js$/, "").replace(/^\//, "");
 
       const location = `./routes/${name}${extension}`;
 
       try {
         await Deno.stat(location);
       } catch {
-        break route;
+        break entry;
       }
 
-      const bundle = await rollup({
-        input: "\0dite-entry",
+      const result = await build({
+        entryPoints: ["dite-entry"],
+        write: false,
+        bundle: true,
+        platform: "browser",
         plugins: [
           diteEntry(entry(location)),
           ...plugins,
         ],
-        output: {
-          format: "esm",
-          file: "bundle.js",
-        },
+        outfile: "bundle.js"
       });
 
-      const { output } = await bundle.generate({ format: "esm" });
-
-      for (const chunkOrAsset of output) {
-        if (chunkOrAsset.type === "asset") {
-          console.log("Asset", chunkOrAsset);
-        } else {
-          console.log("Chunk", chunkOrAsset.code);
+      return new Response(new TextDecoder("utf-8").decode(result.outputFiles[0].contents), {
+        headers: {
+          "Content-Type": "text/javascript",
         }
+      })
+    }
+
+    // Route processing
+    route: {
+
+      let name = url.pathname;
+
+      if (name.endsWith("/")) {
+        name += "index.html"
       }
 
-      bundle.close();
+      name = name.replace(/\.html$/, "").replace(/^\//, "");
+
+      const location = `./routes/${name}${extension}`;
+      
+      try {
+        await Deno.stat(location);
+      } catch {
+        break route;
+      }
 
       return new Response(
+        
         (await Deno.readTextFile("index.html")).replace(
           "%head%",
           '<script src="/_dite/hot-reload.js"></script>',
-        ),
+        ).replace("%body%", `<script src="/${name}.js"></script>`),
         {
           headers: {
             "Content-Type": "text/html",
@@ -105,7 +120,9 @@ export async function dev(config: UserDiteConfig, quiet = false) {
     port,
     onListen: () => {
       if (!quiet) {
-        console.log(`Listening at ${blue(`http://localhost:${port}`)}.`);
+        console.log()
+        console.log(`    ${brightBlue("Dite")} ${green(VERSION)}`);
+        console.log(`    Listening at ${brightBlue(`http://localhost:${port}`)}.`);
       }
     },
   });
