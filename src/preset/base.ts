@@ -46,7 +46,7 @@ export function base(preset: string): CreateType {
     },
     {
       path: "dev.ts",
-      content: `import { ${preset} } from "dite/preset/${preset}.ts";"
+      content: `import { ${preset} } from "dite/preset/${preset}.ts";
 import { dev } from "dite/dev.ts";
 
 await dev({
