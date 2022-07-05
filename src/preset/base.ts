@@ -8,11 +8,14 @@ export function base(preset: string): CreateType {
       content: JSON.stringify(
         {
           tasks: {
-            dev: "deno run -A --unstable --import-map=import_map.json ./dev.ts",
+            dev: "deno run -A --unstable --import-map=import_map.json --watch=routes,lib,dev.ts,index.html ./dev.ts",
             build:
               "deno run -A --unstable --import-map=import_map.json ./build.ts",
             check: "deno fmt; deno lint",
           },
+          compilerOptions: {
+            lib: ["dom"]
+          }
         },
         null,
         2,
@@ -28,7 +31,7 @@ export function base(preset: string): CreateType {
   %head%
 </head>
 <body>
-  %body%
+  <div id="app"></div>
 </body>`,
     },
     {
@@ -36,8 +39,8 @@ export function base(preset: string): CreateType {
       content: JSON.stringify(
         {
           imports: {
-            "dite": join(Deno.mainModule, "../src/mod.ts"),
-            "dite/": join(Deno.mainModule, "../src"),
+            "dite": join(Deno.mainModule, "./../../src/mod.ts"),
+            "dite/": join(Deno.mainModule, "./../../src/"),
           },
         },
         null,
