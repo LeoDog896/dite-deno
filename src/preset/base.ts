@@ -1,7 +1,7 @@
-import { CreateType } from "./createType.ts";
+import { CreateType } from "./preset.ts";
 import { join } from "../../import/path.ts";
 
-export function base(): CreateType {
+export function base(preset: string): CreateType {
   return [
     {
       path: "deno.json",
@@ -37,11 +37,22 @@ export function base(): CreateType {
         {
           imports: {
             "dite": join(Deno.mainModule, "../src/mod.ts"),
+            "dite/": join(Deno.mainModule, "../src"),
           },
         },
         null,
         2,
       ),
     },
+    {
+      path: "dev.ts",
+      content: `import { ${preset} } from "dite/preset/${preset}.ts";"
+import { dev } from "dite/dev.ts";
+
+await dev({
+  ...${preset}.config,
+})
+      `
+    }
   ];
 }
