@@ -1,8 +1,8 @@
-import { CreateType } from "./preset.ts";
+import { PresetSelf } from "./preset.ts";
 import { join } from "../../import/path.ts";
 
-export function base(preset: string): CreateType {
-  return [
+export const base = (preset: string): PresetSelf => ({
+  files: [
     {
       path: "deno.json",
       content: JSON.stringify(
@@ -37,20 +37,6 @@ export function base(preset: string): CreateType {
 </body>`,
     },
     {
-      path: "import_map.json",
-      content: JSON.stringify(
-        {
-          imports: {
-            "dite": join(Deno.mainModule, "./../../src/mod.ts"),
-            "dite/": join(Deno.mainModule, "./../../src/"),
-            "$lib/": "./lib/",
-          },
-        },
-        null,
-        2,
-      ),
-    },
-    {
       path: "dev.ts",
       content: `import { ${preset} } from "dite/preset/${preset}.ts";
 import { dev } from "dite/dev.ts";
@@ -60,5 +46,15 @@ await dev({
 })
       `,
     },
-  ];
-}
+  ],
+  importMap: {
+    "dite": join(Deno.mainModule, "./../../src/mod.ts"),
+    "dite/": join(Deno.mainModule, "./../../src/"),
+    "$lib/": "./lib/",
+  },
+  config: { 
+    entry: () => {
+      throw Error("Cannot use entry of base module!")
+    }
+  }
+})

@@ -1,12 +1,15 @@
 import { Preset } from "./preset.ts";
 import { base } from "./base.ts";
 
+const self = base("vanilla")
+
 const vanilla: Preset = ({ barebones }) => ({
   config: {
+    ...self.config,
     entry: (fileName) => `import "${fileName}"`,
   },
   files: [
-    ...base("vanilla"),
+    ...self.files,
     {
       path: "routes/index.ts",
       content: barebones
@@ -42,6 +45,9 @@ app.appendChild(counterContainer);
 }`,
     }]),
   ],
+  importMap: {
+    ...self.importMap
+  },
 });
 
 export default vanilla;

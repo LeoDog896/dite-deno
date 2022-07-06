@@ -10,7 +10,11 @@ export interface PresetOptions {
   /** If this is true, the preset should try to use minimal content. */
   barebones?: boolean;
 }
-export type Preset = (options: PresetOptions) => {
+
+export interface PresetSelf {
   config: UserDiteConfig;
   files: CreateType;
-};
+  importMap: { [key: string]: string };
+}
+
+export type Preset = (options: PresetOptions) => PresetSelf;
