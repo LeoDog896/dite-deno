@@ -6,7 +6,7 @@ const addCommandBase = new Command()
   .description("Easily add new helpers to your project")
   .example("Add vscode", "dite add vscode");
 
-addCommandBase.action(() => addCommandBase.showHelp())
+addCommandBase.action(() => addCommandBase.showHelp());
 
 Object.keys(additions).forEach((addition) => {
   addCommandBase.command(addition, additions[addition]!);

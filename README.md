@@ -9,7 +9,8 @@ a little bit of a framework
 
 ## frameworks
 
-Dite currently only supports a vanilla framework. `preact` and `svelte` are coming soon but are availalbe for testing.
+Dite currently only supports a vanilla framework. `preact` and `svelte` are
+coming soon but are availalbe for testing.
 
 ## creation
 
