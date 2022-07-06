@@ -78,9 +78,16 @@ export const createCommand = new Command()
       });
     });
 
-    await Deno.writeTextFile(join(directory, "import_map.json"), JSON.stringify({
-      files: presetData.importMap
-    }, null, 2));
+    await Deno.writeTextFile(
+      join(directory, "import_map.json"),
+      JSON.stringify(
+        {
+          files: presetData.importMap,
+        },
+        null,
+        2,
+      ),
+    );
 
     console.log(
       `${

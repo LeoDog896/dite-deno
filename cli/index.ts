@@ -5,6 +5,7 @@ import {
   HelpCommand,
 } from "https://deno.land/x/cliffy@v0.24.2/command/mod.ts";
 import { createCommand } from "./create/command.ts";
+import { addCommand } from "./add/command.ts";
 
 const main = new Command()
   .name("dite")
@@ -12,7 +13,8 @@ const main = new Command()
   .version(VERSION)
   .command("help", new HelpCommand().global())
   .command("completions", new CompletionsCommand())
-  .command("create", createCommand);
+  .command("create", createCommand)
+  .command("add", addCommand);
 
 try {
   if (Deno.args.length === 0) {

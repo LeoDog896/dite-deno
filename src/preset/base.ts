@@ -52,9 +52,9 @@ await dev({
     "dite/": join(Deno.mainModule, "./../../src/"),
     "$lib/": "./lib/",
   },
-  config: { 
+  config: {
     entry: () => {
-      throw Error("Cannot use entry of base module!")
-    }
-  }
-})
+      throw Error("Cannot use entry of base module!");
+    },
+  },
+});

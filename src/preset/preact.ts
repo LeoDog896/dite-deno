@@ -1,7 +1,7 @@
 import { Preset } from "./preset.ts";
 import { base } from "./base.ts";
 
-const self = base("vanilla")
+const self = base("vanilla");
 
 const preact: Preset = () => ({
   config: {
