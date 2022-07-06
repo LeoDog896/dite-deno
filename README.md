@@ -17,10 +17,10 @@ coming soon but are availalbe for testing.
 First, install dite (make sure you have deno installed first).
 
 ```bash
-deno install -A --unstable -f -n=dite https://raw.githubusercontent.com/LeoDog896/dite/main/cli/index.ts
+deno install -A --unstable -f -n=dite https://deno.land/x/dite/cli/index.ts
 ```
 
-Create a new project with: `dite create <type> [project-name]`
+Then, create a new project with: `dite create <type> [project-name]`
 
 ## usage
 
