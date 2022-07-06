@@ -1,5 +1,5 @@
 import { Command } from "https://deno.land/x/cliffy@v0.24.2/command/mod.ts";
-import { createFile } from "../../util/createFiles.ts";
+import { createFile } from "../../util/createFile.ts";
 import { brightBlue } from "../theme.ts";
 
 const files = [

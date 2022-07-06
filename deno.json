@@ -1,6 +1,7 @@
 {
   "tasks": {
     "install": "deno install -A --unstable -f -n=dite ./cli/index.ts",
+    "test": "deno test --allow-read=. --allow-write=.",
     "check": "deno fmt; deno lint"
   }
 }

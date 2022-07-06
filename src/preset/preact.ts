@@ -8,6 +8,10 @@ const preact: Preset = () => ({
     ...self.config,
     entry: (fileName) => `import "${fileName}"`,
     extension: ".tsx",
+    esbuildOptions: {
+      jsxFactory: "h",
+      jsxFragment: "Fragment"
+    }
   },
   files: [
     ...self.files,

@@ -12,5 +12,6 @@ HOOK_DISABLE_NOTICE=0 # Set to 1 to disable the notice when the hook exits with 
 
 deno fmt
 deno lint
+deno task test
 
 exit 0
