@@ -3,8 +3,8 @@
 a little bit of a framework
 
 - Deno-first
-- Powered by esbuild
-- Easy template creation
+- Powered by esbuild (with import-map support)
+- Preset usage
 - HMR (Hot Module Reloading)
 
 ## creation
@@ -31,4 +31,6 @@ route `example.?` is imported.
 
 ## but isn't there others?
 
-this isn't meant to be a replacement for fresh or svel, but rather the backbone for any website. fresh and svel both cater to their respecitive preact and svelte situations, but dite is meant to be a more general solution.
+this isn't meant to be a replacement for fresh or svel, but rather the backbone
+for any website. fresh and svel both cater to their respecitive preact and
+svelte situations, but dite is meant to be a more general solution.

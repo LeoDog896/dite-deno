@@ -3,11 +3,12 @@ import { serve } from "../import/http.ts";
 import { toDiteConfig, UserDiteConfig } from "./diteConfig.ts";
 import { brightBlue, green, VERSION } from "../cli/theme.ts";
 import diteEntry from "./esbuild/dite-entry.ts";
-import importMap from "./esbuild/import-map.ts"
+import importMap from "./esbuild/import-map.ts";
 
 export async function dev(config: UserDiteConfig, quiet = false) {
-
-  const importMapContent = JSON.parse(await Deno.readTextFile("./import_map.json"));
+  const importMapContent = JSON.parse(
+    await Deno.readTextFile("./import_map.json"),
+  );
 
   const uuid = crypto.randomUUID();
 
@@ -42,13 +43,9 @@ export async function dev(config: UserDiteConfig, quiet = false) {
     if (url.pathname == "/_dite/hot-reload.js") {
       return new Response(
         `(async () => {
-  const source = new EventSource("/_dite/hot");
-
   let lastData = "";
 
-  source.onerror = () => {void 0};
-
-  source.addEventListener("message", e => {
+  new EventSource("/_dite/hot").addEventListener("message", e => {
     if (lastData !== "" && lastData !== e.data) {
       location.reload()
     }

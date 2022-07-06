@@ -5,7 +5,12 @@ export type CreateType = {
   content: string;
 }[];
 
-export interface Preset {
+/** Options that the preset may respectfully decline */
+export interface PresetOptions {
+  /** If this is true, the preset should try to use minimal content. */
+  barebones?: boolean;
+}
+export type Preset = (options: PresetOptions) => {
   config: UserDiteConfig;
   files: CreateType;
-}
+};

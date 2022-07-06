@@ -1,13 +1,21 @@
 import { types as createTypes } from "./mod.ts";
 import { join } from "../../import/path.ts";
-import { brightBlue, green } from "../theme.ts";
+import { brightBlue, gray, green } from "../theme.ts";
 import { Confirm } from "https://deno.land/x/cliffy@v0.24.2/prompt/mod.ts";
 import {
   Command,
   EnumType,
 } from "https://deno.land/x/cliffy@v0.24.2/command/mod.ts";
+import { Preset } from "../../src/preset/preset.ts";
 
-async function askForEmpty(directory: string) {
+/**
+ * Don't let the user accidently override files by asking to continue if the directory isn't empty.
+ *
+ * The process will exit with code 0 if the user does not want to continue.
+ *
+ * @param directory The directory to check against
+ */
+async function askForEmpty(directory: string): Promise<void> {
   try {
     let found = false;
 
@@ -34,7 +42,7 @@ async function askForEmpty(directory: string) {
   }
 }
 
-const createType = new EnumType(Object.keys(createTypes));
+const createType = new EnumType(createTypes);
 
 export const createCommand = new Command()
   .name("create")
@@ -43,7 +51,8 @@ export const createCommand = new Command()
   .arguments("<type:createType> [directory:file]")
   .example("Simple vanilla project", "dite create vanilla")
   .example("Create svelte project in a directory", "dite create svelte my-app")
-  .action(async (_, type, directory = "./") => {
+  .option("-b, --barebones", "makes the template barebones.")
+  .action(async ({ barebones }, type, directory = "./") => {
     // Get the name of the directory (if it's ./, itll be the name of the last directory in the name)
     const directoryName = directory == "./"
       ? Deno.cwd().split("/").pop()!
@@ -51,7 +60,12 @@ export const createCommand = new Command()
 
     await askForEmpty(directory);
 
-    createTypes[type]?.forEach(async (file) => {
+    // Since the user will (most likely) be using the preset anyway, better to import and download all of the dependencies now.
+    const { default: preset } = await import(
+      "../../src/preset/" + type + ".ts"
+    );
+
+    (preset as Preset)({ barebones })?.files.forEach(async (file) => {
       // make any necessary directories THEN create the file
       await Deno.mkdir(
         join(directory, file.path.split("/").slice(0, -1).join("/")),
@@ -62,5 +76,13 @@ export const createCommand = new Command()
       });
     });
 
-    console.log(`${green(`Project ${brightBlue(directoryName)} created!`)}`);
+    console.log(
+      `${
+        green(
+          `Project ${brightBlue(directoryName)} created! ${
+            barebones ? gray("(barebones)") : ""
+          }`,
+        )
+      }`,
+    );
   });
