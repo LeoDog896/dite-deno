@@ -7,6 +7,10 @@ a little bit of a framework
 - Preset usage
 - HMR (Hot Module Reloading)
 
+## frameworks
+
+Dite currently only supports a vanilla framework. `preact` and `svelte` are coming soon but are availalbe for testing.
+
 ## creation
 
 First, install dite (make sure you have deno installed first).
