@@ -1,4 +1,5 @@
 import { types as createTypes } from "./list.ts";
+import { createFile } from "../../util/createFiles.ts";
 import { join } from "../../import/path.ts";
 import { brightBlue, gray, green } from "../theme.ts";
 import { Confirm } from "https://deno.land/x/cliffy@v0.24.2/prompt/mod.ts";
@@ -67,16 +68,7 @@ export const createCommand = new Command()
 
     const presetData = (preset as Preset)({ barebones });
 
-    presetData.files.forEach(async (file) => {
-      // make any necessary directories THEN create the file
-      await Deno.mkdir(
-        join(directory, file.path.split("/").slice(0, -1).join("/")),
-        { recursive: true },
-      );
-      await Deno.writeTextFile(join(directory, file.path), file.content, {
-        create: true,
-      });
-    });
+    presetData.files.forEach((file) => createFile(file, directory));
 
     await Deno.writeTextFile(
       join(directory, "import_map.json"),

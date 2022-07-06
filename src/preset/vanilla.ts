@@ -7,6 +7,7 @@ const vanilla: Preset = ({ barebones }) => ({
   config: {
     ...self.config,
     entry: (fileName) => `import "${fileName}"`,
+    extension: ".ts",
   },
   files: [
     ...self.files,

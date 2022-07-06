@@ -2,33 +2,19 @@ import {
   Command,
   EnumType,
 } from "https://deno.land/x/cliffy@v0.24.2/command/mod.ts";
-import { join } from "../../import/path.ts";
-import { additions } from "./list.ts";
-import { Add } from "./add.ts";
-import { brightBlue } from "../theme.ts";
+import { additions } from "./mod.ts";
 
-const addType = new EnumType(additions);
+const addType = new EnumType(Object.keys(additions));
 
-export const addCommand = new Command()
+const addCommandBase = new Command()
   .name("add")
   .description("Easily add new helpers to your project")
   .type("addType", addType)
   .arguments("<type:addType>")
   .example("Add vscode", "dite add vscode")
-  .action(async (_, type) => {
-    const { default: addition } = await import(`./${type}.ts`);
 
-    const files = (addition as Add).files;
+Object.keys(additions).forEach(addition => {
+  addCommandBase.command(addition, additions[addition]!)
+})
 
-    files.forEach(async (file) => {
-      await Deno.mkdir(
-        join(Deno.cwd(), file.path.split("/").slice(0, -1).join("/")),
-        { recursive: true },
-      );
-      await Deno.writeTextFile(join(Deno.cwd(), file.path), file.content, {
-        create: true,
-      });
-    });
-
-    console.log(`Added ${brightBlue(type)}!`);
-  });
+export const addCommand = addCommandBase
