@@ -34,5 +34,5 @@ export default new Command()
     .description("Add vscode integration to your project")
     .action(() => {
       files.forEach(file => createFile(file))
-      console.log(`Added ${brightBlue("vscode")}! Make sure to add the reccomended Deno extension if necessary."`
+      console.log(`Added ${brightBlue("vscode")}! Make sure to add the reccomended Deno extension if necessary."`)
     })
