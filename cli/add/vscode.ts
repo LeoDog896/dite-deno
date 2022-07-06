@@ -1,6 +1,6 @@
 import { Command } from "https://deno.land/x/cliffy@v0.24.2/command/mod.ts";
 import { createFile } from "../../util/createFiles.ts";
-import { brightBlue } from "../theme.ts"
+import { brightBlue } from "../theme.ts";
 
 const files = [
   {
@@ -28,11 +28,14 @@ const files = [
   },
 ];
 
-
 export default new Command()
-    .name("vscode")
-    .description("Add vscode integration to your project")
-    .action(() => {
-      files.forEach(file => createFile(file))
-      console.log(`Added ${brightBlue("vscode")}! Make sure to add the reccomended Deno extension if necessary."`)
-    })
+  .name("vscode")
+  .description("Add vscode integration to your project")
+  .action(() => {
+    files.forEach((file) => createFile(file));
+    console.log(
+      `Added ${
+        brightBlue("vscode")
+      }! Make sure to add the reccomended Deno extension if necessary."`,
+    );
+  });
