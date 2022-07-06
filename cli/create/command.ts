@@ -74,7 +74,7 @@ export const createCommand = new Command()
       join(directory, "import_map.json"),
       JSON.stringify(
         {
-          files: presetData.importMap,
+          imports: presetData.importMap,
         },
         null,
         2,

@@ -1,7 +1,10 @@
 import { PresetSelf } from "./preset.ts";
 import { join } from "../../import/path.ts";
 
-export const base = (preset: string): PresetSelf => ({
+export const base = (
+  preset: string,
+  permission = "--allow-read --allow-write --allow-env --allow-run --allow-net",
+): PresetSelf => ({
   files: [
     {
       path: "deno.json",
@@ -9,9 +12,11 @@ export const base = (preset: string): PresetSelf => ({
         {
           tasks: {
             dev:
-              "deno run -A --unstable --import-map=import_map.json --watch=routes,lib,dev.ts,index.html ./dev.ts",
+              `deno run ${permission} --unstable --import-map=import_map.json --watch=routes,lib,dev.ts,index.html ./dev.ts`,
+            start:
+              `deno run ${permission} --unstable --import-map=import_map.json --watch=routes,lib,dev.ts,index.html ./dev.ts --production`,
             build:
-              "deno run -A --unstable --import-map=import_map.json ./build.ts",
+              `deno run ${permission} --unstable --import-map=import_map.json ./build.ts`,
             check: "deno fmt; deno lint",
           },
           compilerOptions: {
@@ -38,11 +43,11 @@ export const base = (preset: string): PresetSelf => ({
     },
     {
       path: "dev.ts",
-      content: `import { ${preset} } from "dite/preset/${preset}.ts";
+      content: `import ${preset} from "dite/preset/${preset}.ts";
 import { dev } from "dite/dev.ts";
 
 await dev({
-  ...${preset}.config,
+  ...${preset}().config,
 })
       `,
     },

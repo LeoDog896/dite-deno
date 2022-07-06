@@ -12,9 +12,12 @@ export async function dev(config: UserDiteConfig, quiet = false) {
 
   const uuid = crypto.randomUUID();
 
-  const { port, plugins, entry, extension, esbuildOptions } = toDiteConfig(
-    config,
-  );
+  const { port, plugins, entry, extension, esbuildOptions, production } =
+    toDiteConfig(
+      config,
+    );
+
+  const shouldUseProduction = production || Deno.args.includes("--production");
 
   await serve(async (request) => {
     const url = new URL(request.url);
@@ -80,6 +83,7 @@ export async function dev(config: UserDiteConfig, quiet = false) {
         entryPoints: ["dite-entry"],
         write: false,
         bundle: true,
+        minify: shouldUseProduction,
         platform: "browser",
         plugins: [
           diteEntry(entry(location)),

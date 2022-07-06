@@ -3,7 +3,7 @@ import { base } from "./base.ts";
 
 const self = base("vanilla");
 
-const vanilla: Preset = ({ barebones }) => ({
+const vanilla: Preset = ({ barebones } = {}) => ({
   config: {
     ...self.config,
     entry: (fileName) => `import "${fileName}"`,

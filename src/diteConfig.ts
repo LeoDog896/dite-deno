@@ -5,6 +5,7 @@ export interface DiteConfig {
   plugins: Plugin[];
   extension: string;
   esbuildOptions: BuildOptions;
+  production: boolean;
   /** Generates the entry string. fileName is necessary to import the file. */
   entry: (fileName: string) => string;
 }
@@ -18,6 +19,7 @@ export const defaultDiteConfig: Omit<DiteConfig, "entry"> = {
   port: 3000,
   plugins: [],
   extension: ".ts",
+  production: false,
   esbuildOptions: {},
 };
 
