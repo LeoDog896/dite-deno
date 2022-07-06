@@ -1,4 +1,4 @@
-import { Plugin, BuildOptions } from "../import/esbuild.ts";
+import { BuildOptions, Plugin } from "../import/esbuild.ts";
 
 export interface DiteConfig {
   port: number;
@@ -18,7 +18,7 @@ export const defaultDiteConfig: Omit<DiteConfig, "entry"> = {
   port: 3000,
   plugins: [],
   extension: ".ts",
-  esbuildOptions: { }
+  esbuildOptions: {},
 };
 
 export function toDiteConfig(userConfig: UserDiteConfig): DiteConfig {

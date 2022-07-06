@@ -10,8 +10,8 @@ const preact: Preset = () => ({
     extension: ".tsx",
     esbuildOptions: {
       jsxFactory: "h",
-      jsxFragment: "Fragment"
-    }
+      jsxFragment: "Fragment",
+    },
   },
   files: [
     ...self.files,

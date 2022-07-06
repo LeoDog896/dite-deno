@@ -12,7 +12,9 @@ export async function dev(config: UserDiteConfig, quiet = false) {
 
   const uuid = crypto.randomUUID();
 
-  const { port, plugins, entry, extension, esbuildOptions } = toDiteConfig(config);
+  const { port, plugins, entry, extension, esbuildOptions } = toDiteConfig(
+    config,
+  );
 
   await serve(async (request) => {
     const url = new URL(request.url);
@@ -85,11 +87,11 @@ export async function dev(config: UserDiteConfig, quiet = false) {
           ...plugins,
         ],
         outfile: "bundle.js",
-        ...esbuildOptions
+        ...esbuildOptions,
       });
 
       if (!result.outputFiles) {
-        throw Error("No output files found.")
+        throw Error("No output files found.");
       }
 
       return new Response(
