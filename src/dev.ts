@@ -3,7 +3,7 @@ import { serve } from "../import/http.ts";
 import { toDiteConfig, UserDiteConfig } from "./diteConfig.ts";
 import { brightBlue, green, VERSION } from "../cli/theme.ts";
 import diteEntry from "./esbuild/dite-entry.ts";
-import importMap from "./esbuild/import-map.ts";
+import denoResolve from "./esbuild/deno-resolve.ts";
 
 export async function dev(config: UserDiteConfig, quiet = false) {
   const importMapContent = JSON.parse(
@@ -12,57 +12,67 @@ export async function dev(config: UserDiteConfig, quiet = false) {
 
   const uuid = crypto.randomUUID();
 
-  const { port, plugins, entry, extension, esbuildOptions, production } =
-    toDiteConfig(
-      config,
-    );
+  const {
+    port,
+    plugins,
+    entry,
+    extension,
+    esbuildOptions,
+    production,
+    hostname,
+  } = toDiteConfig(
+    config,
+  );
 
   const shouldUseProduction = production || Deno.args.includes("--production");
 
   await serve(async (request) => {
     const url = new URL(request.url);
 
-    // HOT stream
-    if (url.pathname == "/_dite/hot") {
-      let timer: number;
-      const body = new ReadableStream({
-        start(controller) {
-          controller.enqueue(`data: ${uuid}\nretry: 100\n\n`);
-          timer = setInterval(() => {
-            controller.enqueue(`data: ${uuid}\n\n`);
-          }, 1000);
-        },
-        cancel() {
-          clearInterval(timer);
-        },
-      });
-
-      return new Response(body.pipeThrough(new TextEncoderStream()), {
-        headers: {
-          "content-type": "text/event-stream;",
-        },
-      });
-    }
-
-    // HOT JavaScript listener
-    if (url.pathname == "/_dite/hot-reload.js") {
-      return new Response(
-        `(async () => {
-  let lastData = "";
-
-  new EventSource("/_dite/hot").addEventListener("message", e => {
-    if (lastData !== "" && lastData !== e.data) {
-      location.reload()
-    }
-    lastData = e.data
-  })
-})()`,
-        {
-          headers: {
-            "Content-Type": "application/javascript",
+    // Dev stuff: hot module reloading
+    if (!shouldUseProduction) {
+      // HOT stream
+      if (url.pathname == "/_dite/hot") {
+        let timer: number;
+        const body = new ReadableStream({
+          start(controller) {
+            controller.enqueue(`data: ${uuid}\nretry: 100\n\n`);
+            timer = setInterval(() => {
+              controller.enqueue(`data: ${uuid}\n\n`);
+            }, 1000);
           },
-        },
-      );
+          cancel() {
+            clearInterval(timer);
+          },
+        });
+
+        return new Response(body.pipeThrough(new TextEncoderStream()), {
+          headers: {
+            "content-type": "text/event-stream;",
+          },
+        });
+      }
+
+      // HOT JavaScript listener
+      if (url.pathname == "/_dite/hot-reload.js") {
+        return new Response(
+          `(async () => {
+    let lastData = "";
+
+    new EventSource("/_dite/hot").addEventListener("message", e => {
+      if (lastData !== "" && lastData !== e.data) {
+        location.reload()
+      }
+      lastData = e.data
+    })
+  })()`,
+          {
+            headers: {
+              "Content-Type": "application/javascript",
+            },
+          },
+        );
+      }
     }
 
     // Serve the entry file
@@ -87,7 +97,7 @@ export async function dev(config: UserDiteConfig, quiet = false) {
         platform: "browser",
         plugins: [
           diteEntry(entry(location)),
-          importMap(importMapContent),
+          denoResolve(importMapContent),
           ...plugins,
         ],
         outfile: "bundle.js",
@@ -129,7 +139,9 @@ export async function dev(config: UserDiteConfig, quiet = false) {
       return new Response(
         (await Deno.readTextFile("index.html")).replace(
           "%head%",
-          '<script src="/_dite/hot-reload.js"></script>',
+          shouldUseProduction
+            ? ""
+            : '<script src="/_dite/hot-reload.js"></script>',
         ).replace("%body%", `<script src="/${name}.js"></script>`),
         {
           headers: {
@@ -147,6 +159,7 @@ export async function dev(config: UserDiteConfig, quiet = false) {
     });
   }, {
     port,
+    hostname,
     onListen: () => {
       if (!quiet) {
         console.log();

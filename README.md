@@ -3,6 +3,8 @@
 a little bit of a framework
 
 - Deno-first
+- Typescript-first support
+- 0 configuration needed
 - Powered by esbuild (with import-map support)
 - Preset usage
 - HMR (Hot Module Reloading)

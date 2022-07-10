@@ -1,3 +1,9 @@
+/**
+ * The vanilla preset is the preset for a simple vanilla-based web application.
+ *
+ * Files do not have an exported function.
+ */
+
 import { Preset } from "./preset.ts";
 import { base } from "./base.ts";
 
