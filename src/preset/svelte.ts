@@ -12,9 +12,7 @@ const preact: Preset = () => ({
   files: [
     ...self.files,
   ],
-  importMap: {
-    ...self.importMap,
-  },
+  denoConfig: self.denoConfig,
 });
 
 export default preact;

@@ -52,9 +52,7 @@ app.appendChild(counterContainer);
 }`,
     }]),
   ],
-  importMap: {
-    ...self.importMap,
-  },
+  denoConfig: self.denoConfig,
 });
 
 export default vanilla;

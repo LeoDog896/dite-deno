@@ -1,13 +1,13 @@
 import { build } from "../import/esbuild.ts";
 import { serve } from "../import/http.ts";
 import { toDiteConfig, UserDiteConfig } from "./diteConfig.ts";
-import { brightBlue, green, VERSION } from "../cli/theme.ts";
+import { brightBlue, gray, green, VERSION } from "../cli/theme.ts";
 import diteEntry from "./esbuild/dite-entry.ts";
 import denoResolve from "./esbuild/deno-resolve.ts";
 
 export async function dev(config: UserDiteConfig, quiet = false) {
   const importMapContent = JSON.parse(
-    await Deno.readTextFile("./import_map.json"),
+    await Deno.readTextFile("./deno.json"),
   );
 
   const uuid = crypto.randomUUID();
@@ -162,7 +162,7 @@ export async function dev(config: UserDiteConfig, quiet = false) {
     hostname,
     onListen: () => {
       if (!quiet) {
-        console.log();
+        console.log(gray(`At ${new Date().toLocaleTimeString()}`));
         console.log(`    ${brightBlue("Dite")} ${green(VERSION)}`);
         console.log(
           `    Listening at ${brightBlue(`http://localhost:${port}`)}.`,

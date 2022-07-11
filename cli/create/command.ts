@@ -71,11 +71,9 @@ export const createCommand = new Command()
     presetData.files.forEach((file) => createFile(file, directory));
 
     await Deno.writeTextFile(
-      join(directory, "import_map.json"),
+      join(directory, "deno.json"),
       JSON.stringify(
-        {
-          imports: presetData.importMap,
-        },
+        presetData.denoConfig,
         null,
         2,
       ),

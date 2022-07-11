@@ -11,10 +11,18 @@ export interface PresetOptions {
   barebones?: boolean;
 }
 
+interface DenoConfig {
+  tasks?: { [key: string]: string };
+  imports?: { [key: string]: string };
+  compilerOptions?: {
+    lib?: string[];
+  };
+}
+
 export interface PresetSelf {
   config: UserDiteConfig;
   files: CreateType;
-  importMap: { [key: string]: string };
+  denoConfig: DenoConfig;
 }
 
 export type Preset = (options: PresetOptions) => PresetSelf;

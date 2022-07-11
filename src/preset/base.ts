@@ -7,27 +7,6 @@ export const base = (
 ): PresetSelf => ({
   files: [
     {
-      path: "deno.json",
-      content: JSON.stringify(
-        {
-          tasks: {
-            dev:
-              `deno run ${permission} --unstable --import-map=import_map.json --watch=routes,lib,dev.ts,index.html ./dev.ts`,
-            start:
-              `deno run ${permission} --unstable --import-map=import_map.json --watch=routes,lib,dev.ts,index.html ./dev.ts --production`,
-            build:
-              `deno run ${permission} --unstable --import-map=import_map.json ./build.ts`,
-            check: "deno fmt; deno lint",
-          },
-          compilerOptions: {
-            lib: ["dom"],
-          },
-        },
-        null,
-        2,
-      ),
-    },
-    {
       path: "index.html",
       content: `<!DOCTYPE html>
 <html lang="en">
@@ -52,10 +31,24 @@ await dev({
       `,
     },
   ],
-  importMap: {
-    "dite": join(Deno.mainModule, "./../../src/mod.ts"),
-    "dite/": join(Deno.mainModule, "./../../src/"),
-    "$lib/": "./lib/",
+  denoConfig: {
+    imports: {
+      "dite": join(Deno.mainModule, "./../../src/mod.ts"),
+      "dite/": join(Deno.mainModule, "./../../src/"),
+      "$lib/": "./lib/",
+    },
+    tasks: {
+      dev:
+        `deno run --quiet ${permission} --unstable --import-map=deno.json --watch=routes,lib,dev.ts,index.html ./dev.ts`,
+      start:
+        `deno run --quiet ${permission} --unstable --import-map=deno.json --watch=routes,lib,dev.ts,index.html ./dev.ts --production`,
+      build:
+        `deno run --quiet ${permission} --unstable --import-map=deno.json ./build.ts`,
+      check: "deno fmt; deno lint",
+    },
+    compilerOptions: {
+      lib: ["dom"],
+    },
   },
   config: {
     entry: () => {

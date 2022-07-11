@@ -1,5 +1,6 @@
 import { Preset } from "./preset.ts";
 import { base } from "./base.ts";
+import { deepmerge } from "../../import/deepmerge.ts";
 
 const self = base("preact");
 
@@ -35,11 +36,12 @@ export default function Render() {
 `,
     },
   ],
-  importMap: {
-    ...self.importMap,
-    "preact": "https://esm.sh/preact@10.9.0",
-    "preact/": "https://esm.sh/preact@10.9.0?path=/",
-  },
+  denoConfig: deepmerge(self.denoConfig, {
+    imports: {
+      "preact": "https://esm.sh/preact@10.9.0",
+      "preact/": "https://esm.sh/preact@10.9.0?path=/",
+    },
+  }),
 });
 
 export default preact;
