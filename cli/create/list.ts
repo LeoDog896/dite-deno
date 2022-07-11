@@ -1,1 +1,1 @@
-export const types = ["vanilla", "preact"] as const;
+export const types = ["vanilla", "preact", "react"] as const;
