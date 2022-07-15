@@ -34,9 +34,7 @@ To use these, do `deno task dev` or `deno task build` respectively.
 
 ## frameworks
 
-Dite currently only supports a vanilla framework. `preact` and `svelte` are
-coming soon but are availalbe for testing.
-
+Dite has support for `react`, `preact`, and `svelte`.
 ## routing
 
 Routing is currently done by finding the first matching route. For example, if
