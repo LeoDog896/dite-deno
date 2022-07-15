@@ -41,14 +41,22 @@ app.appendChild(counterContainer);
   p.innerText = "Count: " + count;
   container.appendChild(p);
 
-  const button = document.createElement("button");
-  button.innerText = "Add 1";
-  button.addEventListener("click", () => {
+  const add = document.createElement("button");
+  add.innerText = "Add 1";
+  add.addEventListener("click", () => {
     count++;
     p.innerText = "Count: " + count;
   });
 
-  container.appendChild(button);
+  const remove = document.createElement("button");
+  remove.innerText = "Remove 1";
+  remove.addEventListener("click", () => {
+    count--;
+    p.innerText = "Count: " + count;
+  });
+
+  container.appendChild(add);
+  container.appendChild(remove);
 }`,
     }]),
   ],

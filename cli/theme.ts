@@ -1,8 +1,5 @@
-export {
-  brightBlue,
-  gray,
-  green,
-  red,
-  white,
-} from "https://deno.land/std@0.146.0/fmt/colors.ts";
+export const blue = "color: blue";
+export const green = "color: green";
+export const orange = "color: orange";
+export const gray = "color: gray";
 export const VERSION = "0.0.1";

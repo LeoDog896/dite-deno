@@ -1,4 +1,4 @@
-import { red, VERSION } from "./theme.ts";
+import { VERSION } from "./theme.ts";
 import {
   Command,
   CompletionsCommand,
@@ -36,8 +36,8 @@ try {
     Deno.exit(0);
   }
 
-  await main.parse(Deno.args);
+  await main.parse();
 } catch (e) {
-  console.error(`${red("error")}: ${e.message}`);
+  console.error(`%cerror: ${e.message}`, "color: red");
   Deno.exit(1);
 }
