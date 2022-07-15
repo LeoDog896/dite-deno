@@ -2,13 +2,22 @@ import { Plugin } from "../../import/esbuild.ts";
 import * as path from "../../import/path.ts";
 import * as svelte from "https://esm.sh/svelte@3.49.0/compiler";
 
+interface Point {
+  line: number;
+  column: number;
+}
+
 export const sveltePlugin: Plugin = {
   name: "svelte",
   setup(build) {
     build.onLoad({ filter: /\.svelte$/ }, async (args) => {
       // This converts a message in Svelte's format to esbuild's format
       const convertMessage = (
-        { message, start, end }: { message: any; start?: any; end?: any },
+        { message, start, end }: {
+          message: string;
+          start?: Point;
+          end?: Point;
+        },
       ) => {
         let location;
         if (start && end) {
