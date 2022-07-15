@@ -26,7 +26,7 @@ root.render(render())
 export default function Render() {
   return (
     <main>
-      <h1>Hello, world!</h1>
+      <h1>Hello React!</h1>
     </main>
   )
 }

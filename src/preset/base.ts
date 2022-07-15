@@ -24,10 +24,13 @@ export const base = (
       path: "dev.ts",
       content: `import ${preset} from "dite/preset/${preset}.ts";
 import { dev } from "dite/dev.ts";
+import { UserDiteConfig } from "dite/diteConfig.ts"
 
-await dev({
+const config: UserDiteConfig = {
   ...${preset}().config,
-})
+}
+
+await dev(config)
       `,
     },
   ],
@@ -52,7 +55,9 @@ await dev({
   },
   config: {
     entry: () => {
-      throw Error("Cannot use entry of base module!");
+      throw Error(
+        "Cannot use entry of base module! Make sure to specify a preset in `dev.ts` or `build.ts`.",
+      );
     },
   },
 });

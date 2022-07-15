@@ -28,7 +28,8 @@ renderApp(render(), document.getElementById("app"));
 export default function Render() {
   return (
     <main>
-      <h1>Hello, world!</h1>
+      <h1>Hello Preact!</h1>
+      <p>Check out <a href="https://preactjs.com/">https://preactjs.com/</a> for more info.</p>
     </main>
   )
 }

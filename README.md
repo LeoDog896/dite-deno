@@ -7,7 +7,7 @@ a little bit of a framework
 - 0 configuration needed
 - Powered by esbuild (with import-map support)
 - Preset usage
-- HMR (Hot Module Reloading)
+- Refresh on save
 
 ## creation
 

@@ -1,6 +1,29 @@
 import { Plugin } from "../../import/esbuild.ts";
 import * as path from "../../import/path.ts";
 import * as svelte from "https://esm.sh/svelte@3.49.0/compiler";
+import { transform } from "../../import/esbuild.ts";
+
+async function preprocess(source: string, filename: string): Promise<string> {
+  const { code } = await svelte.preprocess(source, {
+    script: async ({ content, attributes }) => {
+      if (attributes.lang === "ts") {
+        const buildResult = await transform(content);
+
+        return {
+          code: buildResult.code,
+        };
+      }
+
+      return {
+        code: content,
+      };
+    },
+  }, {
+    filename,
+  });
+
+  return code;
+}
 
 interface Point {
   line: number;
@@ -40,9 +63,11 @@ export const sveltePlugin: Plugin = {
       const source = await Deno.readTextFile(args.path);
       const filename = path.relative(Deno.cwd(), args.path);
 
+      const code = await preprocess(source, filename);
+
       // Convert Svelte syntax to JavaScript
       try {
-        const { js, warnings } = svelte.compile(source, { filename });
+        const { js, warnings } = svelte.compile(code, { filename });
         const contents = js.code + `//# sourceMappingURL=` + js.map.toUrl();
         return { contents, warnings: warnings.map(convertMessage) };
       } catch (e) {
