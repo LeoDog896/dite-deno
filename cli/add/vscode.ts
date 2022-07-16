@@ -1,6 +1,6 @@
 import { Command } from "https://deno.land/x/cliffy@v0.24.2/command/mod.ts";
 import { createFile } from "../../util/createFile.ts";
-import { blue } from "../theme.ts";
+import { blue, white } from "../theme.ts";
 
 const files = [
   {
@@ -35,7 +35,8 @@ export default new Command()
   .action(() => {
     files.forEach((file) => createFile(file));
     console.log(
-      `Added %cvscode! Make sure to add the reccomended Deno extension if necessary."`,
+      `Added %cvscode! %cMake sure to add the reccomended Deno extension if necessary."`,
       blue,
+      white,
     );
   });

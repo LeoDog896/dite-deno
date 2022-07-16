@@ -9,6 +9,7 @@ export interface DiteConfig {
   production: boolean;
   /** Generates the entry string. fileName is necessary to import the file. */
   entry: (fileName: string) => string;
+  ready: () => void;
 }
 
 /* Makes all properites of T optional except O */
@@ -23,6 +24,7 @@ export const defaultDiteConfig: Omit<DiteConfig, "entry"> = {
   extension: ".ts",
   production: false,
   esbuildOptions: {},
+  ready: () => void 0,
 };
 
 export function toDiteConfig(userConfig: UserDiteConfig): DiteConfig {

@@ -5,10 +5,10 @@ import { deepmerge } from "../../import/deepmerge.ts";
 
 const self = base("svelte");
 
-const preact: Preset = () => ({
+const svelte: Preset = () => ({
   config: {
     ...self.config,
-    entry: (fileName) =>
+    entry: (fileName: string) =>
       `import App from "${fileName}";
 
 const app = new App({
@@ -108,4 +108,4 @@ const app = new App({
   }),
 });
 
-export default preact;
+export default svelte;

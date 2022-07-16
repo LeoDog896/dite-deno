@@ -20,6 +20,7 @@ export async function dev(config: UserDiteConfig, quiet = false) {
     esbuildOptions,
     production,
     hostname,
+    ready,
   } = toDiteConfig(
     config,
   );
@@ -168,6 +169,7 @@ export async function dev(config: UserDiteConfig, quiet = false) {
           `    Listening at %chttp://localhost:${port}.`,
           orange,
         );
+        ready();
       }
     },
   });

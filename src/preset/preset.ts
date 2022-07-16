@@ -25,4 +25,4 @@ export interface PresetSelf {
   denoConfig: DenoConfig;
 }
 
-export type Preset = (options: PresetOptions) => PresetSelf;
+export type Preset = (options?: PresetOptions) => PresetSelf;

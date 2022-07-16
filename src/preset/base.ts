@@ -26,12 +26,14 @@ export const base = (
 import { dev } from "dite/dev.ts";
 import { UserDiteConfig } from "dite/diteConfig.ts"
 
-const config: UserDiteConfig = {
+export const config: UserDiteConfig = {
   ...${preset}().config,
 }
 
-await dev(config)
-      `,
+if (import.meta.main) {
+  await dev(config)
+}
+`,
     },
   ],
   denoConfig: {
