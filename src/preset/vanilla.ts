@@ -21,43 +21,73 @@ const vanilla: Preset = ({ barebones } = {}) => ({
       path: "routes/index.ts",
       content: barebones
         ? `document.getElementById<HTMLDivElement>("app").innerHTML = "<p>Hello World!</p>"`
-        : `import { counter } from "$lib/counter.ts";
+        : `import CounterElement from "$lib/counter.ts";
 
 const app = document.getElementById<HTMLDivElement>("app");
-app.innerHTML = \`<p>Hello World!</p>\`;
+app.innerHTML = "<p>Hello World!</p>";
 
-const counterContainer = document.createElement("div");
-
-counter(counterContainer);
-
-app.appendChild(counterContainer);
+app.appendChild(new CounterElement);        
 `,
     },
     ...(barebones ? [] : [{
       path: "lib/counter.ts",
-      content: `export const counter = (container: HTMLDivElement) => {
-  let count = 0;
-  const p = document.createElement("p");
-  p.innerText = "Count: " + count;
-  container.appendChild(p);
+      content:
+        `// Modified from https://codepen.io/claviska/pen/abwGLPm?editors=0010 -- https://blog.codepen.io/documentation/licensing/
+export default class CounterElement extends HTMLElement {
+  static get observedAttributes() {
+    return ['count'];
+  }
+  
+  constructor() {
+    super();
+    this.state = {
+      count: 0
+    };
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = \`
+      <button type="button">
+        Count:
+        <span class="count">\${this.state.count}</span>
+      </button>
+    \`;
+    this.handleClick = this.handleClick.bind(this);
+  }
+  
+  connectedCallback() {
+    this.shadowRoot.querySelector('button').addEventListener('click', this.handleClick);
+  }
 
-  const add = document.createElement("button");
-  add.innerText = "Add 1";
-  add.addEventListener("click", () => {
-    count++;
-    p.innerText = "Count: " + count;
-  });
+  disconnectedCallback() {
+    this.shadowRoot.querySelector('button').removeEventListener('click', this.handleClick);
+  }
 
-  const remove = document.createElement("button");
-  remove.innerText = "Remove 1";
-  remove.addEventListener("click", () => {
-    count--;
-    p.innerText = "Count: " + count;
-  });
+  get count() {
+    return this.state.count; 
+  }
+  
+  set count(newCount) {
+    this.state.count = newCount;
+    this.update();
+  }
+  
+  attributeChangedCallback(name, _, newValue) {
+    if (name === 'count') {
+      this.state.count = Number(newValue);
+      this.update();
+    }
+  }
+  
+  handleClick() {
+    this.count = this.count + 1;
+  }
+  
+  update() {
+    this.shadowRoot.querySelector('.count').textContent = this.state.count;     
+  }
+}
 
-  container.appendChild(add);
-  container.appendChild(remove);
-}`,
+customElements.define('deno-counter', CounterElement);
+`,
     }]),
   ],
   denoConfig: self.denoConfig,
