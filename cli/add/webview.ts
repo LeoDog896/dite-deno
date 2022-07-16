@@ -8,32 +8,32 @@ export default new Command()
     await Deno.writeTextFile(
       `webview.ts`,
       `import { Webview } from "https://deno.land/x/webview@0.7.3/mod.ts";
-    import { config } from "./dev.ts"
-    const webview = new Webview();
-    
-    const url = \`http://localhost:\${config.port ?? 3000}\`
-    
-    // Retry until the URL is loaded
-    {
-      let fetchSuccesful = false
-    
-      do {
-        try {
-          const { status } = await fetch(url)
-    
-          if (status === 200) {
-            fetchSuccesful = true;
-          }
-        } catch {
-          fetchSuccesful = false;
-        }
-      } while (!fetchSuccesful)
+import { config } from "./dev.ts"
+const webview = new Webview();
+
+const url = \`http://localhost:\${config.port ?? 3000}\`
+
+// Retry until the URL is loaded
+{
+  let fetchSuccesful = false
+
+  do {
+    try {
+      const { status } = await fetch(url)
+
+      if (status === 200) {
+        fetchSuccesful = true;
+      }
+    } catch {
+      fetchSuccesful = false;
     }
-    
-    console.log("    Webview running!")
-    
-    webview.navigate(url);
-    webview.run();
+  } while (!fetchSuccesful)
+}
+
+console.log("    Webview running!")
+
+webview.navigate(url);
+webview.run();
     
 `,
     );
