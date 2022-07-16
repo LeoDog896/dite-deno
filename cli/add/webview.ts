@@ -34,7 +34,6 @@ console.log("    Webview running!")
 
 webview.navigate(url);
 webview.run();
-    
 `,
     );
 
