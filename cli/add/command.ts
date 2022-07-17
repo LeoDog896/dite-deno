@@ -8,8 +8,8 @@ const addCommandBase = new Command()
 
 addCommandBase.action(() => addCommandBase.showHelp());
 
-Object.keys(additions).forEach((addition) => {
-  addCommandBase.command(addition, additions[addition]!);
-});
+for (const [key, addition] of Object.entries(additions)) {
+  addCommandBase.command(key, addition!);
+}
 
 export const addCommand = addCommandBase;

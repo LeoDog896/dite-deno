@@ -46,7 +46,7 @@ webview.run();
     );
 
     console.log(
-      `Added %cwebview! %cMake sure to add the reccomended Deno extension if necessary."`,
+      `Added %cwebview!"`,
       blue,
       white,
     );
