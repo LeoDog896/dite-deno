@@ -24,11 +24,11 @@ export const base = (
       path: "dev.ts",
       content: `import ${preset} from "dite/preset/${preset}.ts";
 import { dev } from "dite/dev.ts";
-import { UserDiteConfig } from "dite/diteConfig.ts"
+import { toDiteConfig } from "dite/diteConfig.ts"
 
-export const config: UserDiteConfig = {
+export const config = toDiteConfig({
   ...${preset}().config,
-}
+})
 
 if (import.meta.main) {
   await dev(config)

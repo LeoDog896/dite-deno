@@ -30,7 +30,7 @@ export async function dev(config: UserDiteConfig, quiet = false) {
   await serve(async (request) => {
     const url = new URL(request.url);
 
-    // Dev stuff: hot module reloading
+    // development mode: hot module reloading
     if (!shouldUseProduction) {
       // HOT stream
       if (url.pathname == "/_dite/hot") {
@@ -57,16 +57,16 @@ export async function dev(config: UserDiteConfig, quiet = false) {
       // HOT JavaScript listener
       if (url.pathname == "/_dite/hot-reload.js") {
         return new Response(
-          `(async () => {
-    let lastData = "";
+          `(() => {
+let lastData = "${uuid}";
 
-    new EventSource("/_dite/hot").addEventListener("message", e => {
-      if (lastData !== "" && lastData !== e.data) {
-        location.reload()
-      }
-      lastData = e.data
-    })
-  })()`,
+new EventSource("/_dite/hot").addEventListener("message", e => {
+  if (lastData !== e.data) {
+    location.reload()
+  }
+  lastData = e.data
+})
+})()`,
           {
             headers: {
               "Content-Type": "application/javascript",
@@ -92,8 +92,8 @@ export async function dev(config: UserDiteConfig, quiet = false) {
 
       const result = await build({
         entryPoints: ["dite-entry"],
-        write: false,
         bundle: true,
+        write: false,
         minify: shouldUseProduction,
         platform: "browser",
         plugins: [
@@ -101,7 +101,6 @@ export async function dev(config: UserDiteConfig, quiet = false) {
           denoResolve(importMapContent),
           ...plugins,
         ],
-        outfile: "bundle.js",
         ...esbuildOptions,
       });
 

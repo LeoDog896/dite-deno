@@ -38,7 +38,7 @@ const app = new App({
   #container {
     text-align: center;
     margin-top: 4rem;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Calibri, sans-serif;
   }
 
   h1 {

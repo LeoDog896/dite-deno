@@ -18,7 +18,7 @@ type PartialExcept<T, O extends keyof T> = Partial<T> & Pick<T, O>;
 export type UserDiteConfig = PartialExcept<DiteConfig, "entry">;
 
 export const defaultDiteConfig: Omit<DiteConfig, "entry"> = {
-  port: 3000,
+  port: 5471,
   hostname: "0.0.0.0",
   plugins: [],
   extension: ".ts",

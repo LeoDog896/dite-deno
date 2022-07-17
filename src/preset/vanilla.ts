@@ -31,9 +31,8 @@ app.appendChild(new CounterElement);
     },
     ...(barebones ? [] : [{
       path: "lib/counter.ts",
-      content:
-        `// Modified from https://codepen.io/claviska/pen/abwGLPm?editors=0010 -- https://blog.codepen.io/documentation/licensing/
-export default class CounterElement extends HTMLElement {
+      content: // Modified from https://codepen.io/claviska/pen/abwGLPm?editors=0010 -- https://blog.codepen.io/documentation/licensing/
+        `export default class CounterElement extends HTMLElement {
   static get observedAttributes() {
     return ['count'];
   }
