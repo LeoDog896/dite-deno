@@ -9,16 +9,20 @@ export default new Command()
 
     Deno.writeTextFile(
       "deno.json",
-      deepmerge(json, {
-        imports: {
-          "twind": "https://esm.sh/twind@0.16.17",
-          "twind/": "https://esm.sh/twind@0.16.17?path=/",
-        },
-      }),
+      JSON.stringify(
+        deepmerge(json, {
+          imports: {
+            "twind": "https://esm.sh/twind@0.16.17",
+            "twind/": "https://esm.sh/twind@0.16.17?path=/",
+          },
+        }),
+        null,
+        2,
+      ),
     );
 
     console.log(
-      `Added %ctwind!"`,
+      `Added %ctwind!`,
       blue,
     );
   });
