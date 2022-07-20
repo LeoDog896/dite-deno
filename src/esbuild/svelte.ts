@@ -3,8 +3,17 @@ import * as path from "../../import/path.ts";
 import * as svelte from "https://esm.sh/svelte@3.49.0/compiler";
 import { transform } from "../../import/esbuild.ts";
 
-async function preprocess(source: string, filename: string): Promise<string> {
-  const { code } = await svelte.preprocess(source, {
+export type SveltePlugin = Exclude<
+  Parameters<typeof svelte.preprocess>[1],
+  unknown[]
+>;
+
+async function preprocess(
+  source: string,
+  filename: string,
+  plugins: SveltePlugin[],
+): Promise<string> {
+  const { code } = await svelte.preprocess(source, [...plugins, {
     script: async ({ content, attributes }) => {
       if (attributes.lang === "ts") {
         const buildResult = await transform(content);
@@ -18,7 +27,7 @@ async function preprocess(source: string, filename: string): Promise<string> {
         code: content,
       };
     },
-  }, {
+  }], {
     filename,
   });
 
@@ -30,7 +39,7 @@ interface Point {
   column: number;
 }
 
-export const sveltePlugin: Plugin = {
+export const sveltePlugin = (plugins?: SveltePlugin[]): Plugin => ({
   name: "svelte",
   setup(build) {
     build.onLoad({ filter: /\.svelte$/ }, async (args) => {
@@ -63,7 +72,7 @@ export const sveltePlugin: Plugin = {
       const source = await Deno.readTextFile(args.path);
       const filename = path.relative(Deno.cwd(), args.path);
 
-      const code = await preprocess(source, filename);
+      const code = await preprocess(source, filename, plugins ?? []);
 
       // Convert Svelte syntax to JavaScript
       try {
@@ -75,4 +84,4 @@ export const sveltePlugin: Plugin = {
       }
     });
   },
-};
+});

@@ -1,11 +1,11 @@
 import { Preset } from "./preset.ts";
 import { base } from "./base.ts";
-import { sveltePlugin } from "../esbuild/svelte.ts";
+import { SveltePlugin, sveltePlugin } from "../esbuild/svelte.ts";
 import { deepmerge } from "../../import/deepmerge.ts";
 
 const self = base("svelte");
 
-const svelte: Preset = () => ({
+const svelte: Preset<{ plugins: SveltePlugin[] }> = (options) => ({
   config: {
     ...self.config,
     entry: (fileName: string) =>
@@ -17,7 +17,7 @@ const app = new App({
 `,
     extension: ".svelte",
     plugins: [
-      sveltePlugin,
+      sveltePlugin(options?.plugins),
     ],
   },
   files: [

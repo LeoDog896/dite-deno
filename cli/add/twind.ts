@@ -1,10 +1,9 @@
 import { Command } from "https://deno.land/x/cliffy@v0.24.2/command/mod.ts";
-import { deepmerge } from "../../../import/deepmerge.ts";
-import { blue, white } from "../../theme.ts";
-
+import { blue } from "../theme.ts";
+import { deepmerge } from "../../import/deepmerge.ts";
 export default new Command()
-  .name("vanilla/tailwind")
-  .description("Add tailwind for vanilla projects")
+  .name("twind")
+  .description("Add twind integration to your project")
   .action(async () => {
     const json = JSON.parse(await Deno.readTextFile("deno.json"));
 
@@ -19,8 +18,7 @@ export default new Command()
     );
 
     console.log(
-      `Added %cvanilla/tailwind! %cMake sure to add the reccomended Deno extension if necessary."`,
+      `Added %ctwind!"`,
       blue,
-      white,
     );
   });

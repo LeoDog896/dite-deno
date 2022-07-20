@@ -6,10 +6,10 @@ export type CreateType = {
 }[];
 
 /** Options that the preset may respectfully decline */
-export interface PresetOptions {
+export type PresetOptions<E = Record<never, never>> = E & {
   /** If this is true, the preset should try to use minimal content. */
   barebones?: boolean;
-}
+};
 
 interface DenoConfig {
   tasks?: { [key: string]: string };
@@ -25,4 +25,6 @@ export interface PresetSelf {
   denoConfig: DenoConfig;
 }
 
-export type Preset = (options?: PresetOptions) => PresetSelf;
+export type Preset<E = Record<never, never>> = (
+  options?: PresetOptions<E>,
+) => PresetSelf;
