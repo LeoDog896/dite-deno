@@ -1,5 +1,7 @@
 # dite
 
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/LeoDog896/dite)
+
 a little bit of a framework
 
 - Deno-first
