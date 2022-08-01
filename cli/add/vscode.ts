@@ -33,7 +33,7 @@ export default new Command()
   .name("vscode")
   .description("Add vscode integration to your project")
   .action(() => {
-    files.forEach((file) => createFile(file));
+    files.forEach(createFile);
     console.log(
       `Added %cvscode! %cMake sure to add the reccomended Deno extension if necessary."`,
       blue,
