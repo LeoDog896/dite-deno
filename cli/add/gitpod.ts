@@ -26,7 +26,7 @@ export default new Command()
   .name("gitpod")
   .description("Add gitpod integration to your project")
   .action(() => {
-    files.forEach(createFile);
+    files.forEach(file => createFile(file));
     console.log(
       `Added %cgitpod! %cRestart the gitpod workspace fully (after pushing your changes), and build the image docker if necessary."`,
       blue,
