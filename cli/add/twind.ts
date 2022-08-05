@@ -1,4 +1,4 @@
-import { Command } from "https://deno.land/x/cliffy@v0.24.2/command/mod.ts";
+import { Command } from "https://deno.land/x/cliffy@v0.24.3/command/mod.ts";
 import { blue } from "../theme.ts";
 import { deepmerge } from "../../import/deepmerge.ts";
 export default new Command()
