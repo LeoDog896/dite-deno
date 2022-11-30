@@ -1,4 +1,4 @@
-import { Command } from "https://deno.land/x/cliffy@v0.24.3/command/mod.ts";
+import { Command } from "https://deno.land/x/cliffy@v0.25.4/command/mod.ts";
 import { createFile } from "../../util/createFile.ts";
 import { blue, white } from "../theme.ts";
 

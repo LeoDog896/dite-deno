@@ -1,4 +1,4 @@
-import { Command } from "https://deno.land/x/cliffy@v0.24.3/command/mod.ts";
+import { Command } from "https://deno.land/x/cliffy@v0.25.4/command/mod.ts";
 import { blue, white } from "../theme.ts";
 
 export default new Command()
@@ -7,7 +7,7 @@ export default new Command()
   .action(async () => {
     await Deno.writeTextFile(
       `webview.ts`,
-      `import { Webview } from "https://deno.land/x/webview@0.7.3/mod.ts";
+      `import { Webview } from "https://deno.land/x/webview@0.7.5/mod.ts";
 import { config } from "./dev.ts"
 const webview = new Webview();
 

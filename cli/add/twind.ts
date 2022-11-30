@@ -1,4 +1,4 @@
-import { Command } from "https://deno.land/x/cliffy@v0.24.3/command/mod.ts";
+import { Command } from "https://deno.land/x/cliffy@v0.25.4/command/mod.ts";
 import { blue } from "../theme.ts";
 import { deepmerge } from "../../import/deepmerge.ts";
 export default new Command()
@@ -12,8 +12,8 @@ export default new Command()
       JSON.stringify(
         deepmerge(json, {
           imports: {
-            "twind": "https://esm.sh/twind@0.16.17",
-            "twind/": "https://esm.sh/twind@0.16.17?path=/",
+            "twind": "https://esm.sh/twind@0.16.18",
+            "twind/": "https://esm.sh/twind@0.16.18?path=//",
           },
         }),
         null,

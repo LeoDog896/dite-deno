@@ -102,8 +102,8 @@ const app = new App({
   ],
   denoConfig: deepmerge(self.denoConfig, {
     imports: {
-      "svelte": "https://esm.sh/svelte@3.49.0",
-      "svelte/": "https://esm.sh/svelte@3.49.0?path=/",
+      "svelte": "https://esm.sh/svelte@3.53.1",
+      "svelte/": "https://esm.sh/svelte@3.53.1?path=//",
     },
   }),
 });

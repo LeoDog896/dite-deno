@@ -1,7 +1,7 @@
 {
   "tasks": {
     "install": "deno install --allow-read --allow-write --allow-env --allow-run --allow-net --unstable -f -n=dite ./cli/index.ts",
-    "update": "deno run --allow-read=./ --allow-net --allow-write=./ https://deno.land/x/deno_outdated@0.0.6/cli.ts --ignore README.md",
+    "update": "deno run --allow-read=./ --allow-net --allow-write=./ https://deno.land/x/deno_outdated@0.2.4/cli.ts --ignore README.md deno.lock",
     "test": "deno test --allow-read=. --allow-write=.",
     "check": "deno fmt; deno lint"
   }
