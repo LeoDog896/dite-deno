@@ -82,7 +82,7 @@ export const createCommand = new Command()
     );
 
     await Deno.writeTextFile(join(directory, "import_map.json"), JSON.stringify(
-      imports,
+      { imports },
       null,
       2,
     ))

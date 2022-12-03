@@ -7,7 +7,7 @@ import denoResolve from "./esbuild/deno-resolve.ts";
 
 export async function dev(config: UserDiteConfig, quiet = false) {
   const importMapContent = JSON.parse(
-    await Deno.readTextFile("./deno.json"),
+    await Deno.readTextFile("./import_map.json"),
   );
 
   const uuid = crypto.randomUUID();
