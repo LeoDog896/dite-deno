@@ -41,7 +41,7 @@ webview.run();
       "deno.json",
       (await Deno.readTextFile("deno.json")).replace(
         `"dev": "`,
-        `"dev": "deno run -A --quiet --unstable --import-map=deno.json ./webview.ts & `,
+        `"dev": "deno run -A --quiet --unstable --import-map=import_map.json ./webview.ts & `,
       ),
     );
 

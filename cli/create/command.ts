@@ -70,14 +70,22 @@ export const createCommand = new Command()
 
     presetData.files.forEach((file) => createFile(file, directory));
 
+    const { imports, ...denoConfig } = presetData.denoConfig;
+
     await Deno.writeTextFile(
       join(directory, "deno.json"),
       JSON.stringify(
-        presetData.denoConfig,
+        denoConfig,
         null,
         2,
       ),
     );
+
+    await Deno.writeTextFile(join(directory, "import_map.json"), JSON.stringify(
+      imports,
+      null,
+      2,
+    ))
 
     console.log(`%cProject %c${directoryName} %ccreated!`, gray, green, gray);
   });

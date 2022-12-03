@@ -44,11 +44,11 @@ if (import.meta.main) {
     },
     tasks: {
       dev:
-        `deno run --quiet ${permission} --unstable --import-map=deno.json --watch=routes,lib,dev.ts,index.html ./dev.ts`,
+        `deno run --quiet ${permission} --unstable --import-map=import_map.json --watch=routes,lib,dev.ts,index.html ./dev.ts`,
       start:
-        `deno run --quiet ${permission} --unstable --import-map=deno.json --watch=routes,lib,dev.ts,index.html ./dev.ts --production`,
+        `deno run --quiet ${permission} --unstable --import-map=import_map.json --watch=routes,lib,dev.ts,index.html ./dev.ts --production`,
       build:
-        `deno run --quiet ${permission} --unstable --import-map=deno.json ./build.ts`,
+        `deno run --quiet ${permission} --unstable --import-map=import_map.json ./build.ts`,
       check: "deno fmt; deno lint",
     },
     compilerOptions: {

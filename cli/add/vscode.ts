@@ -9,7 +9,7 @@ const files = [
       {
         "deno.enable": true,
         "deno.unstable": true,
-        "deno.importMap": "deno.json",
+        "deno.importMap": "import_map.json",
       },
       null,
       2,
