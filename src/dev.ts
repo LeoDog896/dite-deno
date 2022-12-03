@@ -30,7 +30,7 @@ export async function dev(config: UserDiteConfig, quiet = false) {
   await serve(async (request) => {
     const url = new URL(request.url);
 
-    // development mode: hot module reloading
+    // development mode: refresh on change
     if (!shouldUseProduction) {
       // HOT stream
       if (url.pathname == "/_dite/hot") {
