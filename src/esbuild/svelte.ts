@@ -1,6 +1,6 @@
 import { Plugin } from "../../import/esbuild.ts";
 import * as path from "../../import/path.ts";
-import * as svelte from "https://esm.sh/svelte@3.53.1/compiler";
+import * as svelte from "https://esm.sh/svelte@3.58.0/compiler";
 import { transform } from "../../import/esbuild.ts";
 
 export type SveltePlugin = Exclude<

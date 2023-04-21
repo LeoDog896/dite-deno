@@ -2,11 +2,11 @@ import { types as createTypes } from "./list.ts";
 import { createFile } from "../../util/createFile.ts";
 import { join } from "../../import/path.ts";
 import { gray, green } from "../theme.ts";
-import { Confirm } from "https://deno.land/x/cliffy@v0.25.4/prompt/mod.ts";
+import { Confirm } from "https://deno.land/x/cliffy@v0.25.7/prompt/mod.ts";
 import {
   Command,
   EnumType,
-} from "https://deno.land/x/cliffy@v0.25.4/command/mod.ts";
+} from "https://deno.land/x/cliffy@v0.25.7/command/mod.ts";
 import { Preset } from "../../src/preset/preset.ts";
 
 /**

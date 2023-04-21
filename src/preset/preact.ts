@@ -39,8 +39,8 @@ export default function Render() {
   ],
   denoConfig: deepmerge(self.denoConfig, {
     imports: {
-      "preact": "https://esm.sh/preact@10.11.3",
-      "preact/": "https://esm.sh/preact@10.11.3?path=//",
+      "preact": "https://esm.sh/preact@10.13.2",
+      "preact/": "https://esm.sh/preact@10.13.2?path=///",
     },
   }),
 });

@@ -1,4 +1,4 @@
-import { Command } from "https://deno.land/x/cliffy@v0.25.4/command/mod.ts";
+import { Command } from "https://deno.land/x/cliffy@v0.25.7/command/mod.ts";
 import { createFile } from "../../util/createFile.ts";
 import { blue, white } from "../theme.ts";
 
@@ -15,7 +15,7 @@ vscode:
   {
     path: ".gitpod.Dockerfile",
     content: `FROM gitpod/workspace-full
-RUN curl -fsSL https://deno.land/x/install@v0.1.7/install.sh | sh
+RUN curl -fsSL https://deno.land/x/install@v0.1.8/install.sh | sh
 RUN /home/gitpod/.deno/bin/deno completions bash > /home/gitpod/.bashrc.d/90-deno && \\
     echo 'export DENO_INSTALL="/home/gitpod/.deno"' >> /home/gitpod/.bashrc.d/90-deno && \\
     echo 'export PATH="$DENO_INSTALL/bin:$PATH"' >> /home/gitpod/.bashrc.d/90-deno`,

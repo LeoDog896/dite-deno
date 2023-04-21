@@ -1,4 +1,4 @@
-import { Command } from "https://deno.land/x/cliffy@v0.25.4/command/command.ts";
+import { Command } from "https://deno.land/x/cliffy@v0.25.7/command/command.ts";
 import vscode from "./vscode.ts";
 import webview from "./webview.ts";
 import twind from "./twind.ts";

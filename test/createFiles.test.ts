@@ -1,5 +1,5 @@
 import { createFile } from "../util/createFile.ts";
-import { assertEquals } from "https://deno.land/std@0.166.0/testing/asserts.ts";
+import { assertEquals } from "https://deno.land/std@0.184.0/testing/asserts.ts";
 
 Deno.test("files create right", async () => {
   await createFile({

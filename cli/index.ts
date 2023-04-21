@@ -3,12 +3,12 @@ import {
   Command,
   CompletionsCommand,
   HelpCommand,
-} from "https://deno.land/x/cliffy@v0.25.4/command/mod.ts";
+} from "https://deno.land/x/cliffy@v0.25.7/command/mod.ts";
 import {
   DenoLandProvider,
   GithubProvider,
   UpgradeCommand,
-} from "https://deno.land/x/cliffy@v0.25.4/command/upgrade/mod.ts";
+} from "https://deno.land/x/cliffy@v0.25.7/command/upgrade/mod.ts";
 import { createCommand } from "./create/command.ts";
 import { addCommand } from "./add/command.ts";
 

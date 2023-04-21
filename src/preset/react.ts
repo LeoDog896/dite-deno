@@ -38,8 +38,8 @@ export default function Render() {
     imports: {
       "react": "https://esm.sh/react@18.2.0",
       "react-dom": "https://esm.sh/react-dom@18.2.0",
-      "react-dom/": "https://esm.sh/react-dom@18.2.0?path=//",
-      "react/": "https://esm.sh/react@18.2.0?path=//",
+      "react-dom/": "https://esm.sh/react-dom@18.2.0?path=///",
+      "react/": "https://esm.sh/react@18.2.0?path=///",
     },
   }),
 });
